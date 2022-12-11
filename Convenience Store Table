@@ -1,0 +1,24 @@
+#1. Hello Welcome to one of my projects. In this project I have created a table called 'store' and I have added it some data.
+
+CREATE TABLE store(id INTEGER PRIMARY KEY, dept INTEGER, brand VARCHAR, name VARCHAR, price INTEGER, inventory INTEGER, itemsold INTEGER);
+
+INSERT INTO store VALUES(1, 12, 'kellogs', 'frost flakes', 4, 12, 4); 
+INSERT INTO store VALUES(2, 12, 'nabisco', 'oreos', 3, 24, 12); 
+INSERT INTO store VALUES(3, 14, 'tide', 'detergent', 10, 6, 2); 
+INSERT INTO store VALUES(4, 14, 'gain', 'softener', 8, 10, 4);
+INSERT INTO store VALUES(5, 28, 'auto', 'windshield cleaner', 5, 20, 5);
+
+#2. In this section below I start testing the data asking question such as "could you show me the items sold from the 'store' table,
+but show me only the ones that sold 4 or more units and order from the most sold to the least?"
+
+SELECT * FROM store
+WHERE itemsold >=4 ORDER BY itemsold desc;
+
+#3. Now in this section I decided to get how many units I have sold from the store and how many units I had have on inventory.
+
+SELECT SUM(itemsold), SUM(inventory) FROM store; // the sum was 27, and 72 respectively
+
+#4. Lastly I wanted to know how many units I currently have on hand since we sold some items. I query the data telling it to find me the numerical value by
+susbstracting items sold to current inventory. 
+
+SELECT SUM(inventory-itemsold) FROM store; //  [answer was 45 (this means my new on hand inventory is 45 units)]
