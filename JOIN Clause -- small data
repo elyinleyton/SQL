@@ -1,0 +1,31 @@
+/* I have created two small tables to showcase the use of JOIN in a way it's clear to follow -- I entered movie stars names, and roles played in only one movie */
+
+CREATE TABLE movie_stars(id INTEGER PRIMARY KEY, name TEXT, nationality TEXT);
+
+INSERT INTO movie_stars VALUES 
+(1, 'Keanu Reeves', 'Canadian'), 
+(2, 'Hugo Weaving', 'English'),
+(3, 'Lambert Wilson', 'French'),
+(4, 'Jada Pinkett', 'American');
+
+CREATE TABLE  films(star_id INTEGER, movie TEXT, character TEXT); 
+
+INSERT INTO films VALUES
+(4, 'Bad Moms', 'Stacy'),
+(1, 'The Matrix', 'Neo'),
+(3, 'Blind Man', 'Narvik'),
+(2, 'The Lord of the Rings', 'Elrond');
+
+/* AFter I have created and added values to the two table I Select all data on these table to have a clear Idea what do I need to merge(JOIN) together */
+
+SELECT * FROM movie_stars;
+
+SELECT * FROM films;
+
+/* Here is the final query -- The new table has Name, Character name and film name. We can now clearly see what actor or actress played which character in a film */
+
+SELECT name, character, movie AS film
+FROM movie_stars
+LEFT JOIN films
+ON movie_stars.id = films.star_id;
+
