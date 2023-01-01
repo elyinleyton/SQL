@@ -1,0 +1,67 @@
+-- In this first one I have JOIN both existing table in order to put together each film with its director and cast people
+
+SELECT 
+people.show_id,
+people.director,
+titles.type,
+titles.title,
+people.cast,
+titles.rating 
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id=titles.show_id ;
+
+-- Question: how many movie titles are there in the database?
+SELECT COUNT(*) 
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie';
+
+-- Question: When was the most recent batch of tv shows and/or movies added to the database?
+SELECT MAX(date(date_added))
+ FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" ;
+
+-- Question: List all the movies and tv shows in alphabetical order.
+SELECT title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+ORDER BY title ASC;
+
+-- Question: Who was the Director for the movie Bright Star?
+SELECT
+people.Director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+RIGHT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id=titles.show_id
+WHERE titles.title='Bright Star';
+
+-- Question: What is the oldest movie in the database and what year was it made?
+SELECT title, release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie'
+ORDER BY release_year DESC
+Limit 1;
+-- the above query will grab only 1 title, however it could be more than 1 movie
+-- release in the same year. We can find out using a subquery like the one below.
+
+SELECT 
+title,
+release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie'
+AND release_year <=
+(SELECT MIN(release_year)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie');
+
+-- List Movies rated for all ages and please create a new column Good for Kids?
+SELECT 
+title, 
+type,
+rating,
+CASE
+    WHEN rating = 'TV-Y' THEN 'Approved'
+    ELSE 'Not Approved'
+END AS Good_For_Kids
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie'
+AND rating='TV-Y'
+LIMIT 100;
